@@ -1,0 +1,14 @@
+FRONT END
+docker run --name goals-frontend -d -p 3000:3000 --rm  frontend
+
+
+BACK END
+docker run --name goals-backend --network goals-net -d -p 80:80 --rm backend
+
+
+DB
+docker run --name mongodb -p 27017:27017 --rm --network goals-net -v data:/data/db  mongo
+
+
+NETWORK
+docker network create goals-net
