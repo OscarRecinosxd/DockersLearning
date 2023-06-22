@@ -5,9 +5,15 @@ docker run --name goals-frontend -d -p 3000:3000 --rm  frontend
 BACK END
 docker run --name goals-backend --network goals-net -d -p 80:80 --rm backend
 
+docker run --name goals-backend --network goals-net -p 80:80 --rm -v logs:/app/logs 
+-v "C:\Users\oscar\OneDrive\Documentos\Vs_WorkSpace\DockersLearning\multi-01-starting-setup\backend":/app 
+-v /app/node_modules backend
+
 
 DB
-docker run --name mongodb -p 27017:27017 --rm --network goals-net -v data:/data/db  mongo
+docker run --name mongodb -p 27017:27017 --rm --network goals-net 
+-v data:/data/db -e MONGO_INITDB_ROOT_USERNAME=oscar 
+-e MONGO_INITDB_ROOT_PASSWORD=1234  mongo
 
 
 NETWORK
