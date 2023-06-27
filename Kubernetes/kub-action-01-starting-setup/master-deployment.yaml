@@ -1,0 +1,43 @@
+apiVersion: apps/v1
+kind: Deployment
+metadata:
+  name: second-app-deployment
+spec:
+  replicas: 1
+  selector:
+    matchLabels:
+      app: second-app
+      tier: backend
+  template:
+    metadata:
+      labels:
+        app: second-app
+        tier: backend
+    spec:
+      containers:
+      - name: second-node
+        image: reci15/kub-first-app
+      #- name: second-node
+      #  image: reci15/kub-first-app
+        resources:
+          limits:
+            memory: "128Mi"
+            cpu: "500m"
+        #ports:
+        #- containerPort: 8000
+---
+apiVersion: v1
+kind: Service
+metadata:
+  name: backend
+spec:
+  selector:
+    app: second-app
+    tier: backend
+  ports:
+  - port: 80
+    targetPort: 8080
+#  - port : 442
+#    targetPort: 25
+  type: LoadBalancer
+

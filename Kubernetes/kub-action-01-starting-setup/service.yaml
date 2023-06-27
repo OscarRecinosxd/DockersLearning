@@ -1,0 +1,15 @@
+apiVersion: v1
+kind: Service
+metadata:
+  name: backend
+spec:
+  selector:
+    app: second-app
+    tier: backend
+  ports:
+  - port: 80
+    targetPort: 8080
+#  - port : 442
+#    targetPort: 25
+  type: LoadBalancer
+
