@@ -17,9 +17,13 @@ apiVersion: apps/v1
 kind: Deployment
 metadata:
   name: second-app-deployment
+  labels:
+    group: deployments
 spec:
   replicas: 1
   selector:
+    #matchExpressions:
+    #  - {key: app, operator: In, values: [second-app, first-app]}
     matchLabels:
       app: second-app
       tier: backend
@@ -31,13 +35,22 @@ spec:
     spec:
       containers:
       - name: second-node
-        image: reci15/kub-first-app
+        image: reci15/kub-first-app:3
+        imagePullPolicy: Always
       #- name: second-node
       #  image: reci15/kub-first-app
         resources:
           limits:
             memory: "128Mi"
             cpu: "500m"
+        livenessProbe:
+          httpGet:
+            path: /
+            port : 8080
+          periodSeconds: 10
+          initialDelaySeconds: 5
+
+          
         #ports:
         #- containerPort: 8000
 
